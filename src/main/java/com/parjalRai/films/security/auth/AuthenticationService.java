@@ -48,7 +48,7 @@ public class AuthenticationService {
                 .role(role)
                 .build();
 
-        var savedUser= userRepository.save(user);
+        var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
@@ -86,6 +86,17 @@ public class AuthenticationService {
                 .build();
     }
 
+    private void saveUserToken(UserEntity user, String jwtToken) {
+        var token = Token.builder()
+                .userEntity(user)
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .revoked(false)
+                .expired(false)
+                .build();
+        tokenRepository.save(token);
+    }
+
     private void revokeAllUserTokens(UserEntity user){
         var validUserTokens = tokenRepository.findAllValidTokensByUsername(user.getUsername());
          if(validUserTokens.isEmpty()){
@@ -99,16 +110,7 @@ public class AuthenticationService {
          }
     }
 
-    private void saveUserToken(UserEntity user, String jwtToken) {
-        var token = Token.builder()
-                .userEntity(user)
-                .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .revoked(false)
-                .expired(false)
-                .build();
-        tokenRepository.save(token);
-    }
+
 
     
     public void logout() {
