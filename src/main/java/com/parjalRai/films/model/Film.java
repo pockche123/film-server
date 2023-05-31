@@ -6,8 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "ghibli")
@@ -33,6 +35,20 @@ public class Film {
     // private List<Review> reviews;
     private String pgRating;
     private Integer duration;
+    @DBRef
+    private List<Review> reviews;
+    
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public Object getStatusCode() {
+        return null;
+    }
+
+    public Object getBody() {
+        return null;
+    }
 
 
 
