@@ -19,64 +19,62 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Film;
-import com.parjalRai.films.model.Review;
-import com.parjalRai.films.model.dto.ReviewDTO;
+import com.parjalRai.films.model.Rating;
+import com.parjalRai.films.model.dto.RatingDTO;
 import com.parjalRai.films.service.FilmService;
-import com.parjalRai.films.service.ReviewService;
+import com.parjalRai.films.service.RatingService;
 
 @RestController
-@RequestMapping("api/v1/review")
+@RequestMapping("api/v1/rating")
 @CrossOrigin(origins = "http://localhost:3000")
-public class ReviewController {
-
+public class RatingController {
     @Autowired
-    private ReviewService reviewService;
+    private RatingService ratingService;
 
     @Autowired
     private FilmService filmService;
 
     @GetMapping
-    public ResponseEntity<List<Review>> getAllReviews() {
-        return ResponseEntity.ok(reviewService.findAllReviews());
+    public ResponseEntity<List<Rating>> getAllratings() {
+        return ResponseEntity.ok(ratingService.findAllRatings());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteReview(@PathVariable ObjectId id) {
-        boolean deleted = reviewService.deleteReview(id);
+    public ResponseEntity<String> deleterating(@PathVariable ObjectId id) {
+        boolean deleted = ratingService.deleteRating(id);
         if (deleted) {
-            return ResponseEntity.ok("Review deleted successfully");
+            return ResponseEntity.ok("Rating deleted successfully");
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Review> createReview(@RequestBody ReviewDTO reviewDTO) {
+    public ResponseEntity<Rating> createrating(@RequestBody RatingDTO ratingDTO) {
         try {
-            Review review = reviewService.createReview(reviewDTO.filmTitle(), reviewDTO.username(),
-                     reviewDTO.review());
-            return ResponseEntity.ok(review);
+            Rating rating = ratingService.createRating(ratingDTO.filmTitle(), ratingDTO.username(),
+                    ratingDTO.rating());
+            return ResponseEntity.ok(rating);
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Review> updateReview(@RequestBody Review review, @PathVariable ObjectId id) {
-        Review updatedReview = reviewService.updateReviewDetails(review, id);
-        if (updatedReview != null) {
-            return ResponseEntity.ok(updatedReview);
+    public ResponseEntity<Rating> updaterating(@RequestBody Rating rating, @PathVariable ObjectId id) {
+        Rating updatedrating = ratingService.updateratingDetails(rating, id);
+        if (updatedrating != null) {
+            return ResponseEntity.ok(updatedrating);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-
     @GetMapping("/{filmTitle}")
-    public List<Review> getFilmReviews(@PathVariable String filmTitle) {
-    Optional<Film> optFilm = filmService.findFilmByTitle(filmTitle);
-    Film film = optFilm.get();
-    List<Review> reviews = reviewService.findReviewsByFilm(film);
-    return reviews;
+    public List<Rating> getFilmratings(@PathVariable String filmTitle) {
+        Optional<Film> optFilm = filmService.findFilmByTitle(filmTitle);
+        Film film = optFilm.get();
+        List<Rating> ratings = ratingService.findRatingsByFilm(film);
+        return ratings;
     }
 }

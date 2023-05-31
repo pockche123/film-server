@@ -46,13 +46,13 @@ public class FilmController {
     //     return new ResponseEntity<List<Review>>(filmService.findReviewsByFilmTitle(title), HttpStatus.OK);
     // }
 
-    @GetMapping("/reviews/{filmTitle}")
-    public Film getFilmByTitle(@PathVariable String filmTitle) {
-        Optional<Film> optFilm = filmService.findFilmByTitle(filmTitle);
-        Film film = optFilm.get();
-        film.setReviews(film.getReviews()); // Ensure the reviews are populated
-        return film;
-    }
+    // @GetMapping("/reviews/{filmTitle}")
+    // public Film getFilmByTitle(@PathVariable String filmTitle) {
+    //     Optional<Film> optFilm = filmService.findFilmByTitle(filmTitle);
+    //     Film film = optFilm.get();
+    //     film.setReviews(film.getReviews()); // Ensure the reviews are populated
+    //     return film;
+    // }
 
 
 }

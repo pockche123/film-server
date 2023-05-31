@@ -31,7 +31,7 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
-    public Review createReview(String filmTitle, String username, int rating, String reviewText) {
+    public Review createReview(String filmTitle, String username, String reviewText) {
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
 

@@ -31,15 +31,17 @@ public class FilmService {
         return FilmRepository.findFilmByTitleIgnoreCase(title);
     }
 
-    public List<Review> findReviewsByFilmTitle(String title) {
-        Optional<Film> optionalFilm = FilmRepository.findFilmByTitleIgnoreCase(title);
-        if (optionalFilm.isPresent()) {
-            Film film = optionalFilm.get();
-            return film.getReviews();
-        } else {
-            return Collections.emptyList();
-        }
-    }
+    // public List<Review> findReviewsByFilmTitle(String title) {
+    //     Optional<Film> optionalFilm = FilmRepository.findFilmByTitleIgnoreCase(title);
+    //     if (optionalFilm.isPresent()) {
+    //         Film film = optionalFilm.get();
+    //         return film.getReviews();
+    //     } else {
+    //         return Collections.emptyList();
+    //     }
+    // }
+
+
     
 
     
