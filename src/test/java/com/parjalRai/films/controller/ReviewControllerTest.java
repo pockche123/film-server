@@ -25,7 +25,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.Review;
+import com.parjalRai.films.model.UserEntity;
 import com.parjalRai.films.model.dto.ReviewDTO;
+import com.parjalRai.films.repository.UserEntityRepository;
 import com.parjalRai.films.service.FilmService;
 import com.parjalRai.films.service.ReviewService;
 
@@ -38,8 +40,12 @@ public class ReviewControllerTest {
     @Mock
     private FilmService filmService;
 
+    @Mock
+    private UserEntityRepository userRepository; 
+
     @InjectMocks
     private ReviewController reviewController;
+
 
     private Review review1;
     private Review review2;
@@ -175,6 +181,27 @@ public class ReviewControllerTest {
         assertEquals(expectedReviews, result);
         verify(filmService, times(1)).findFilmByTitle(filmTitle);
         verify(reviewService, times(1)).findReviewsByFilm(film);
+    }
+
+
+    @Test
+    void getUserreviews_WhenUserExists_ShouldReturnListOfreviews() {
+        // Arrange
+        String username = "jogo";
+        UserEntity user = new UserEntity();
+        user.setUsername(username);
+        List<Review> expectedReviews = Arrays.asList(review1, review2);
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(reviewService.findReviewsByUser(user)).thenReturn(expectedReviews);
+
+        // Act
+        List<Review> results = reviewController.getUserReviews(username);
+
+        // Assert
+        assertNotNull(results);
+        assertEquals(expectedReviews, results);
+        verify(reviewService).findReviewsByUser(user);
     }
 
 

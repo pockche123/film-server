@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.Review;
+import com.parjalRai.films.model.UserEntity;
 import com.parjalRai.films.model.dto.ReviewDTO;
+import com.parjalRai.films.repository.UserEntityRepository;
 import com.parjalRai.films.service.FilmService;
 import com.parjalRai.films.service.ReviewService;
 
@@ -31,6 +33,10 @@ public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
+
+
+    @Autowired
+    private UserEntityRepository userRepository;
 
     @Autowired
     private FilmService filmService;
@@ -72,11 +78,19 @@ public class ReviewController {
     }
 
 
-    @GetMapping("/{filmTitle}")
+    @GetMapping("/film/{filmTitle}")
     public List<Review> getFilmReviews(@PathVariable String filmTitle) {
-    Optional<Film> optFilm = filmService.findFilmByTitle(filmTitle);
-    Film film = optFilm.get();
-    List<Review> reviews = reviewService.findReviewsByFilm(film);
-    return reviews;
+        Optional<Film> optFilm = filmService.findFilmByTitle(filmTitle);
+        Film film = optFilm.get();
+        List<Review> reviews = reviewService.findReviewsByFilm(film);
+        return reviews;
+    }
+    
+    @GetMapping("/user/{username}")
+    public List<Review> getUserReviews(@PathVariable String username) {
+        Optional<UserEntity> optUser = userRepository.findByUsername(username);
+        UserEntity user = optUser.get();
+        List<Review> reviews = reviewService.findReviewsByUser(user);
+        return reviews;
     }
 }

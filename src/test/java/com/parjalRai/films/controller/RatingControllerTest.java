@@ -24,7 +24,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.Rating;
+import com.parjalRai.films.model.UserEntity;
 import com.parjalRai.films.model.dto.RatingDTO;
+import com.parjalRai.films.repository.UserEntityRepository;
 import com.parjalRai.films.service.FilmService;
 import com.parjalRai.films.service.RatingService;
 
@@ -36,6 +38,9 @@ public class RatingControllerTest {
 
     @Mock
     private FilmService filmService;
+
+    @Mock
+    private UserEntityRepository userRepository; 
 
     @InjectMocks
     private RatingController ratingController;
@@ -156,12 +161,32 @@ public class RatingControllerTest {
 
         //Act
         List<Rating> results = ratingController.getFilmratings(filmTitle);
-        
+
         //Assert
         assertNotNull(results);
         assertEquals(expectedRatings, results);
         verify(filmService).findFilmByTitle(filmTitle);
-        verify(ratingService).findRatingsByFilm(film); 
+        verify(ratingService).findRatingsByFilm(film);
+    }
+    
+    @Test
+    void getUserRatings_WhenUserExists_ShouldReturnListOfRatings() {
+        //Arrange
+        String username = "jogo";
+        UserEntity user = new UserEntity();
+        user.setUsername(username);
+        List<Rating> expectedRatings = Arrays.asList(rating1, rating2);
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(ratingService.findRatingsByUser(user)).thenReturn(expectedRatings);
+
+        //Act
+        List<Rating> results = ratingController.getUserRatings(username);
+        
+        //Assert
+        assertNotNull(results);
+        assertEquals(expectedRatings, results);
+        verify(ratingService).findRatingsByUser(user);
     }
 
 

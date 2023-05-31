@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,7 +15,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
-import org.apache.catalina.startup.Tomcat.ExistingStandardWrapper;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +29,6 @@ import com.parjalRai.films.model.Rating;
 import com.parjalRai.films.model.UserEntity;
 import com.parjalRai.films.repository.FilmRepository;
 import com.parjalRai.films.repository.RatingRepository;
-import com.parjalRai.films.repository.ReviewRepository;
 import com.parjalRai.films.repository.UserEntityRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,7 +88,30 @@ public class RatingServiceTest {
         assertEquals(expectedRatings, actualRatings);
         verify(ratingRepository, times(1)).findByFilm(film);
     }
+
+    @Test
+    public void testFindRatingsByUserEntity_ReturnAListOfRatings_WhenFoundByFilm() {
+        //Arrange
+        UserEntity user = new UserEntity();
+        rating1.setUserEntity(user);;
+        List<Rating> expectedRatings = Arrays.asList(rating1);
+        when(ratingRepository.findByUserEntity(user)).thenReturn(expectedRatings);
+        //Act
+        List<Rating> actualRatings = ratingService.findRatingsByUser(user);
+        //Assert
+        assertEquals(expectedRatings, actualRatings);
+        verify(ratingRepository, times(1)).findByUserEntity(user);
+    }
+
     
+
+
+
+
+
+
+
+
     @Test
     public void testCreateRating_WithValidData_ShouldCreateARating() {
         //Arrange
