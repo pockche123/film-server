@@ -35,7 +35,7 @@ public class RatingController {
     private FilmService filmService;
 
     @GetMapping
-    public ResponseEntity<List<Rating>> getAllratings() {
+    public ResponseEntity<List<Rating>> getAllRatings() {
         return ResponseEntity.ok(ratingService.findAllRatings());
     }
 
