@@ -9,19 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document(collection = "ratings")
+@Document(collection = "reviews")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Rating {
+public class Review {
     
+
     @Id
     private ObjectId reviewId;
     @DBRef
     private Film film;
     @DBRef
     private UserEntity userEntity;
-    private int rating; 
-
+    private String review;
 
 }

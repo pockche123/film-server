@@ -1,6 +1,5 @@
 package com.parjalRai.films.controller;
 
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,11 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.parjalRai.films.model.Film;
+import com.parjalRai.films.model.Review;
 import com.parjalRai.films.service.FilmService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -46,7 +47,7 @@ class FilmControllerTest {
         assertEquals(films, responseEntity.getBody());
     }
 
-    @Test 
+    @Test
     void getAFilm_ReturnsAFilm_WhenImdbIsCorrect() {
         Optional<Film> optionalFilm = Optional.of(new Film());
         optionalFilm = optionalFilm.map(film -> {
@@ -61,7 +62,7 @@ class FilmControllerTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(optionalFilm, responseEntity.getBody());
     }
-    
+
     @Test
     void getFilmByTitle_ReturnsFilmWithHttpStatusOK() {
 
@@ -71,12 +72,28 @@ class FilmControllerTest {
 
         when(filmService.findFilmByTitle(title)).thenReturn(optionalFilm);
 
-
-        ResponseEntity<Optional<Film>> responseEntity = filmController.getFilmByTitle(title);
+        Film responseEntity = filmController.getFilmByTitle(title);
 
         verify(filmService).findFilmByTitle(title);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(optionalFilm, responseEntity.getBody());
+    }
+
+    @Test
+    void getReviewsByFilmTitle_ReturnsReviewsWithHttpStatusOK() {
+
+        String title = "title";
+        Review review1 = new Review();
+        Review review2 = new Review();
+
+        List<Review> expectedReviews = Arrays.asList(review1, review2);
+        when(filmService.findReviewsByFilmTitle(title)).thenReturn(expectedReviews);
+        ResponseEntity<List<Review>> responseEntity = filmController.getReviewsByFilmTitle(title);
+
+        verify(filmService).findReviewsByFilmTitle(title);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedReviews, responseEntity.getBody());
     }
 }
