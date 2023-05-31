@@ -74,5 +74,9 @@ public class ReviewService {
         return reviewRepository.findByFilm(film);
     }
 
+    public List<Review> findReviewsByUser(UserEntity user) {
+        return reviewRepository.findByUserEntity(user);
+    }
+
 
 }

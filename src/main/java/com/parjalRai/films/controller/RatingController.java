@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.Rating;
+import com.parjalRai.films.model.UserEntity;
 import com.parjalRai.films.model.dto.RatingDTO;
+import com.parjalRai.films.repository.UserEntityRepository;
 import com.parjalRai.films.service.FilmService;
 import com.parjalRai.films.service.RatingService;
 
@@ -33,6 +35,9 @@ public class RatingController {
 
     @Autowired
     private FilmService filmService;
+
+    @Autowired
+    private UserEntityRepository userRepository; 
 
     @GetMapping
     public ResponseEntity<List<Rating>> getAllRatings() {
@@ -70,11 +75,19 @@ public class RatingController {
         }
     }
 
-    @GetMapping("/{filmTitle}")
+    @GetMapping("/film/{filmTitle}")
     public List<Rating> getFilmratings(@PathVariable String filmTitle) {
         Optional<Film> optFilm = filmService.findFilmByTitle(filmTitle);
         Film film = optFilm.get();
         List<Rating> ratings = ratingService.findRatingsByFilm(film);
+        return ratings;
+    }
+
+    @GetMapping("/user/{username}")
+    public List<Rating> getUserRatings(@PathVariable String username) {
+        Optional<UserEntity> optUser = userRepository.findByUsername(username);
+        UserEntity user = optUser.get();
+        List<Rating> ratings = ratingService.findRatingsByUser(user);
         return ratings;
     }
 }

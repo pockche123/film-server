@@ -209,9 +209,28 @@ public class ReviewServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(2, result.size());
-    
+
         verify(reviewRepository, times(1)).findByFilm(film);
     }
+
+
+    @Test
+    public void testFindreviewsByUserEntity_ReturnAListOfreviews_WhenFoundByFilm() {
+        // Arrange
+        UserEntity user = new UserEntity();
+        review1.setUserEntity(user);
+        ;
+        List<Review> expectedreviews = Arrays.asList(review1);
+        when(reviewRepository.findByUserEntity(user)).thenReturn(expectedreviews);
+        // Act
+        List<Review> actualreviews = reviewService.findReviewsByUser(user);
+        // Assert
+        assertEquals(expectedreviews, actualreviews);
+        verify(reviewRepository, times(1)).findByUserEntity(user);
+    }
+    
+
+
 
     
 
