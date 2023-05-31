@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class Rating {
     
     @Id
-    private ObjectId reviewId;
+    private ObjectId ratingId;
     @DBRef
     private Film film;
     @DBRef

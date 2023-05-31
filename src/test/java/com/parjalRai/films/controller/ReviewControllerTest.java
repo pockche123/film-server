@@ -154,8 +154,7 @@ public class ReviewControllerTest {
     @Test
     void getFilmReviews_WhenFilmExists_ShouldReturnListOfReviews() {
         // Arrange
-        String filmTitle = "Film Title";
-
+        String filmTitle = "Django";
         Film film = new Film();
         film.setTitle(filmTitle);
 
