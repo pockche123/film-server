@@ -82,41 +82,41 @@ class FilmServiceTest {
         assertEquals(optionalFilm, resultFilm);
     }
 
-    @Test
-    void findReviewsByFilmTitle_ReturnsReviews_WhenFilmTitleIsFound() {
-        Film film1 = new Film();
-        String title = "title";
-        film1.setTitle(title);
-        Review review1 = new Review();
-        Review review2 = new Review();
+    // @Test
+    // void findReviewsByFilmTitle_ReturnsReviews_WhenFilmTitleIsFound() {
+    //     Film film1 = new Film();
+    //     String title = "title";
+    //     film1.setTitle(title);
+    //     Review review1 = new Review();
+    //     Review review2 = new Review();
 
-        film1.setReviews(Arrays.asList(review1, review2));
-        Optional<Film> optionalFilm = Optional.of(film1);
+    //     film1.setReviews(Arrays.asList(review1, review2));
+    //     Optional<Film> optionalFilm = Optional.of(film1);
 
-        when(filmRepository.findFilmByTitleIgnoreCase(title)).thenReturn(optionalFilm);
+    //     when(filmRepository.findFilmByTitleIgnoreCase(title)).thenReturn(optionalFilm);
 
-        // Act
-        List<Review> actualReviews = filmService.findReviewsByFilmTitle(title);
+    //     // Act
+    //     List<Review> actualReviews = filmService.findReviewsByFilmTitle(title);
 
-        // Assert
-        assertEquals(film1.getReviews(), actualReviews);
-        verify(filmRepository, times(1)).findFilmByTitleIgnoreCase(title);
-    }
+    //     // Assert
+    //     assertEquals(film1.getReviews(), actualReviews);
+    //     verify(filmRepository, times(1)).findFilmByTitleIgnoreCase(title);
+    // }
 
-    @Test
-    void findReviewsByFilmTitle_ReturnsEmptyList_WhenFilmTitleIsNotFound() {
-        // Arrange
-        String title = "No title";
-        Optional<Film> optionalFilm = Optional.empty();
+    // @Test
+    // void findReviewsByFilmTitle_ReturnsEmptyList_WhenFilmTitleIsNotFound() {
+    //     // Arrange
+    //     String title = "No title";
+    //     Optional<Film> optionalFilm = Optional.empty();
 
-        when(filmRepository.findFilmByTitleIgnoreCase(title)).thenReturn(optionalFilm);
+    //     when(filmRepository.findFilmByTitleIgnoreCase(title)).thenReturn(optionalFilm);
 
-        // Act
-        List<Review> actualReviews = filmService.findReviewsByFilmTitle(title);
+    //     // Act
+    //     List<Review> actualReviews = filmService.findReviewsByFilmTitle(title);
 
-        // Assert
-        assertEquals(Collections.emptyList(), actualReviews);
-        verify(filmRepository, times(1)).findFilmByTitleIgnoreCase(title);
-    }
+    //     // Assert
+    //     assertEquals(Collections.emptyList(), actualReviews);
+    //     verify(filmRepository, times(1)).findFilmByTitleIgnoreCase(title);
+    // }
 
 }

@@ -35,20 +35,9 @@ public class Film {
     // private List<Review> reviews;
     private String pgRating;
     private Integer duration;
-    @DBRef
-    private List<Review> reviews;
-    
-    public List<Review> getReviews() {
-        return reviews;
-    }
 
-    public Object getStatusCode() {
-        return null;
-    }
 
-    public Object getBody() {
-        return null;
-    }
+
 
 
 
