@@ -31,7 +31,7 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
-    public Review createReview(String filmTitle, String username, String reviewText) {
+    public Review createReview(String filmTitle, String username, String reviewText, int rating) {
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
 
@@ -42,6 +42,7 @@ public class ReviewService {
         review.setFilm(film);
         review.setUserEntity(user);
         review.setReview(reviewText);
+        review.setRating(rating);
 
         return reviewRepository.save(review);
     }
@@ -59,6 +60,9 @@ public class ReviewService {
             Review updatedReview = optReview.get();
             if (review.getReview() != null) {
                 updatedReview.setReview(review.getReview());
+            }
+            if (review.getRating() != 0) {
+                updatedReview.setRating(review.getRating());
             }
             return reviewRepository.save(updatedReview);
 

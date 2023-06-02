@@ -116,13 +116,13 @@ public class ReviewControllerTest {
     @Test
     void createReview_WhenReviewCreated_ShouldReturnOkResponse() {
         // Arrange
-        ReviewDTO reviewDTO = new ReviewDTO("Film Title", "Username", "Review");
+        ReviewDTO reviewDTO = new ReviewDTO("Film Title", "Username", "Review", 5);
 
         Review createdReview = new Review();
         createdReview.setReviewId(new ObjectId());
         createdReview.setReview(reviewDTO.review());
 
-        when(reviewService.createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review()))
+        when(reviewService.createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review(), reviewDTO.rating()))
                 .thenReturn(createdReview);
 
         // Act
@@ -132,7 +132,7 @@ public class ReviewControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(createdReview, response.getBody());
-        verify(reviewService, times(1)).createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review());
+        verify(reviewService, times(1)).createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review(), reviewDTO.rating());
     }
 
 
