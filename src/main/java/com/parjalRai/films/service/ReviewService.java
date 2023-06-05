@@ -1,10 +1,14 @@
 package com.parjalRai.films.service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import com.parjalRai.films.exception.NotFoundException;
@@ -30,6 +34,9 @@ public class ReviewService {
     public List<Review> findAllReviews() {
         return reviewRepository.findAll();
     }
+
+    public Optional<Review> findAReview(ObjectId objectId) {return reviewRepository.findById(objectId);}
+
 
     public Review createReview(String filmTitle, String username, String reviewText, int rating) {
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
