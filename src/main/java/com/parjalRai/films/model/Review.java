@@ -23,6 +23,7 @@ public class Review {
     @DBRef
     private UserEntity userEntity;
     private String review;
-    private int rating; 
+    private int rating;
+
 
 }

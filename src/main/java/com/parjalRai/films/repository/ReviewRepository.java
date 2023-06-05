@@ -1,6 +1,8 @@
 package com.parjalRai.films.repository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -8,6 +10,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.Review;
 import com.parjalRai.films.model.UserEntity;
+import org.springframework.data.mongodb.repository.Query;
 
 public interface ReviewRepository extends MongoRepository<Review, ObjectId> {
 
@@ -15,4 +18,5 @@ public interface ReviewRepository extends MongoRepository<Review, ObjectId> {
 
     List<Review> findByUserEntity(UserEntity user);
 
+    Optional<Review> findByReviewIdTimestamp(long timestamp);
 }
