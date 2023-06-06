@@ -80,6 +80,24 @@ public class ReviewControllerTest {
         verify(reviewService, times(1)).findAllReviews();
     }
 
+    @Test
+    void getAReview_ShouldReturnAReview_WhenAnObjectIdPassed() {
+        //Arrange
+        ObjectId reviewId = new ObjectId();
+        when(reviewService.findAReview(reviewId)).thenReturn(Optional.of(review1));
+
+        //Assert
+        ResponseEntity<Optional<Review>> response = reviewController.getAReview(reviewId);
+
+        //Act
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(reviewService).findAReview(reviewId);
+        
+
+
+    }
+
 
     @Test
     void deleteReview_WhenReviewExists_ShouldReturnOkResponse() {

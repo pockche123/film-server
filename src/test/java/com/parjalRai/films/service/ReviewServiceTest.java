@@ -89,6 +89,24 @@ public class ReviewServiceTest {
     }
 
     @Test
+    public void testFindAReview_GetAReview_WhenAValidObjectIdPassed() {
+        //Arrange
+        ObjectId objectId = new ObjectId();
+        // review1.setReviewId(objectId);
+        when(reviewRepository.findById(objectId)).thenReturn(Optional.of(review1));
+
+        //Act
+        Optional<Review> optionalReview = reviewService.findAReview(objectId);
+        Review expectedReview = optionalReview.get();
+
+        //Assert
+        assertEquals(expectedReview, review1);
+        verify(reviewRepository).findById(objectId);
+    }
+
+
+
+    @Test
     public void testCreateReview_WithValidData_ShouldCreateReview() {
         // Arrange
         String filmTitle = "Django";
