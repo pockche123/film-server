@@ -39,7 +39,7 @@ public class UserEntity implements UserDetails {
     @Size(min = 8, max = 30, message = "Password is not valid, please use 8-30 characters")
     private String password;
     private Role role;
-    private String profile_pic;
+    private String profilePic;
     private List<Token> tokens; 
 
 

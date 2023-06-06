@@ -50,6 +50,7 @@ public class ReviewService {
         review.setUserEntity(user);
         review.setReview(reviewText);
         review.setRating(rating);
+        review.setCreatedDate(new Date());
 
         return reviewRepository.save(review);
     }

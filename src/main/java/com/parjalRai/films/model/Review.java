@@ -1,6 +1,9 @@
 package com.parjalRai.films.model;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,6 +27,8 @@ public class Review {
     private UserEntity userEntity;
     private String review;
     private int rating;
+    @CreatedDate
+    private Date createdDate;
 
 
 }
