@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.Review;
 import com.parjalRai.films.model.UserEntity;
-import org.springframework.data.mongodb.repository.Query;
 
 public interface ReviewRepository extends MongoRepository<Review, ObjectId> {
 

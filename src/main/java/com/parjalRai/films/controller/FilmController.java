@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.parjalRai.films.model.Film;
-import com.parjalRai.films.model.Review;
 import com.parjalRai.films.service.FilmService;
 import com.parjalRai.films.service.ReviewService;
 
