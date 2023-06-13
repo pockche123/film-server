@@ -29,6 +29,7 @@ public class Review {
     private int rating;
     @CreatedDate
     private Date createdDate;
+    private long likes; 
 
 
 }
