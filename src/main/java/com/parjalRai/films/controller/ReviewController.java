@@ -65,7 +65,7 @@ public class ReviewController {
     public ResponseEntity<Review> createReview(@RequestBody ReviewDTO reviewDTO) {
         try {
             Review review = reviewService.createReview(reviewDTO.filmTitle(), reviewDTO.username(),
-                     reviewDTO.review(), reviewDTO.rating());
+                     reviewDTO.review(), reviewDTO.rating(), reviewDTO.likes());
             return ResponseEntity.ok(review);
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

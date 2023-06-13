@@ -112,7 +112,8 @@ public class ReviewServiceTest {
         String filmTitle = "Django";
         String username = "JohnDoe";
         String reviewText = "Great movie!";
-        int rating = 8; 
+        int rating = 8;
+        long likes = 4;
         Film film = new Film();
         film.setTitle(filmTitle);
         UserEntity user = new UserEntity();
@@ -130,7 +131,7 @@ public class ReviewServiceTest {
         when(reviewRepository.save(review)).thenReturn(review);
 
         // Act
-        Review actualReview = reviewService.createReview(filmTitle, username, reviewText, rating);
+        Review actualReview = reviewService.createReview(filmTitle, username, reviewText, rating, likes);
 
         assertEquals(review, actualReview);
         verify(reviewRepository, times(1)).save(any());
@@ -143,13 +144,14 @@ public class ReviewServiceTest {
         String username = "Non-existent User";
         String reviewText = "Great movie!";
         int rating = 5;
+        int likes = 4;
         Film film = new Film();
         when(filmRepository.findFilmByTitleIgnoreCase(anyString())).thenReturn(Optional.of(film));
         when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(NotFoundException.class,
-                () -> reviewService.createReview(filmTitle, username, reviewText, rating));
+                () -> reviewService.createReview(filmTitle, username, reviewText, rating, likes));
 
         verify(reviewRepository, never()).save(any());
     }
