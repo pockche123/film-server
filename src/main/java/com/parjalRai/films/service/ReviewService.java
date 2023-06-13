@@ -1,14 +1,11 @@
 package com.parjalRai.films.service;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import com.parjalRai.films.exception.NotFoundException;
@@ -38,7 +35,7 @@ public class ReviewService {
     public Optional<Review> findAReview(ObjectId objectId) {return reviewRepository.findById(objectId);}
 
 
-    public Review createReview(String filmTitle, String username, String reviewText, int rating) {
+    public Review createReview(String filmTitle, String username, String reviewText, int rating, long likes) {
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
 
@@ -51,6 +48,7 @@ public class ReviewService {
         review.setReview(reviewText);
         review.setRating(rating);
         review.setCreatedDate(new Date());
+        review.setLikes(likes);
 
         return reviewRepository.save(review);
     }
@@ -69,9 +67,8 @@ public class ReviewService {
             if (review.getReview() != null) {
                 updatedReview.setReview(review.getReview());
             }
-            if (review.getRating() != 0) {
                 updatedReview.setRating(review.getRating());
-            }
+                updatedReview.setLikes(review.getLikes());
             return reviewRepository.save(updatedReview);
 
         } catch (Exception e) {
