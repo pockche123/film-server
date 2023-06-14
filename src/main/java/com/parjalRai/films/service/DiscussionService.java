@@ -45,7 +45,7 @@ public class DiscussionService {
         return discussionRepository.findByUser(user);
     }
 
-    public Discussion createDiscussion(String filmTitle, String username, String title, String description) {
+    public Discussion createDiscussion(String filmTitle, String username, String title, String description, Long likes) {
 
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
@@ -59,6 +59,7 @@ public class DiscussionService {
         discussion.setTitle(title);
         discussion.setTimestamp(Instant.now());
         discussion.setDescription(description);
+        discussion.setLikes(likes);
 
         return discussionRepository.save(discussion);
     }

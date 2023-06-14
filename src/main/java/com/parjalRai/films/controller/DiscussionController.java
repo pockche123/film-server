@@ -47,7 +47,9 @@ public class DiscussionController {
     @PostMapping
     public ResponseEntity<Discussion> createDiscussion(@RequestBody DiscussionDTO discussionDTO) {
         try{
-            Discussion discussion = discussionService.createDiscussion(discussionDTO.filmTitle(), discussionDTO.username(), discussionDTO.title(), discussionDTO.description());
+            Discussion discussion = discussionService.createDiscussion(discussionDTO.filmTitle(),
+                    discussionDTO.username(), discussionDTO.title(), discussionDTO.description(),
+            discussionDTO.likes());
             return ResponseEntity.ok(discussion);
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
