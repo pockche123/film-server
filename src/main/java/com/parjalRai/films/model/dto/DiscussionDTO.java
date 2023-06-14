@@ -4,6 +4,7 @@ public record DiscussionDTO(
     String filmTitle,
     String username,
     String title,
-    String description
+    String description,
+    Long likes
     
 ) {}

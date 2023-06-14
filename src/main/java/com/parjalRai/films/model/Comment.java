@@ -1,8 +1,5 @@
 package com.parjalRai.films.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
@@ -11,21 +8,28 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "discussions")
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Document(collection = "comments")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Discussion {
+public class Comment {
+
 
     @Id
     private ObjectId id;
+    private String text;
+    private Instant timestamp;
     @DBRef
-    private Film film;
+    private Comment parentComment;
+    @DBRef
+    private Discussion discussion;
     @DBRef
     private UserEntity user;
-    private String title; 
-    private String description; 
-    private Instant timestamp;
     private long likes; 
+
     
 }
