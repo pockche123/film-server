@@ -26,8 +26,8 @@ public class CommentService {
     private UserEntityRepository userRepository;
 
     @Autowired
-    private DiscussionRepository discussionRepository; 
-    
+    private DiscussionRepository discussionRepository;
+
     public List<Comment> findAllComments() {
         return commentRepository.findAll();
     }
@@ -47,15 +47,20 @@ public class CommentService {
         return commentRepository.findByDiscussion(discussion);
     }
 
-
     public Comment createComment(String text, ObjectId discussionId, ObjectId commentId, String username, Long likes) {
         Optional<Discussion> optDiscussion = discussionRepository.findById(discussionId);
         Optional<UserEntity> optUser = userRepository.findByUsername(username);
-        Optional<Comment> optComment = commentRepository.findById(commentId);
 
         Discussion discussion = optDiscussion.orElseThrow(() -> new NotFoundException("discussion not found"));
         UserEntity user = optUser.orElseThrow(() -> new NotFoundException(username + " not found"));
-        Comment parentComment = optComment.orElse(null);
+        Comment parentComment = null;
+        if (commentId != null) {
+            Optional<Comment> optComment = commentRepository.findById(commentId);
+            parentComment = optComment.orElseThrow(() -> new NotFoundException("Comment not found"));
+        }
+
+        // Generate new ObjectId if commentId is null
+        ObjectId newCommentId = commentId != null ? commentId : new ObjectId();
 
         Comment comment = new Comment();
         comment.setDiscussion(discussion);
@@ -86,16 +91,13 @@ public class CommentService {
             updatedComment.setLikes(comment.getLikes());
             updatedComment.setTimestamp(Instant.now());
 
-
             return commentRepository.save(updatedComment);
-            
+
         } catch (Exception e) {
             System.err.println("Error while updating comment: " + e.getMessage());
         }
-        
+
         return null;
     }
 
-
-    
 }
