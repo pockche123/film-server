@@ -27,7 +27,7 @@ import com.parjalRai.films.service.CommentService;
 @CrossOrigin(origins = "http://localhost:3000")
 public class CommentController {
     
-    private static final Optional<ObjectId> Optional = null;
+  
     @Autowired
     private CommentService commentService;
     
@@ -37,12 +37,12 @@ public class CommentController {
     }
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<List<Comment>> getAllCommmentsByUser(String username) {
+    public ResponseEntity<List<Comment>> getAllCommmentsByUser(@PathVariable String username) {
         return ResponseEntity.ok(commentService.findAllCommentsByUser(username));
     }
 
     @GetMapping("/dicussion/{discussionId}")
-    public ResponseEntity<List<Comment>> getAllCommentsByDiscussion(ObjectId discussionId) {
+    public ResponseEntity<List<Comment>> getAllCommentsByDiscussion(@PathVariable ObjectId discussionId) {
         return ResponseEntity.ok(commentService.findAllCommentsByDiscussion(discussionId));
     }
 
