@@ -100,4 +100,7 @@ public class CommentService {
         return null;
     }
 
+    public void updatedComment(Comment updatedComment, ObjectId id) {
+    }
+
 }

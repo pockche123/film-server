@@ -32,7 +32,9 @@ public class Comment {
     private Discussion discussion;
     @DBRef
     private UserEntity user;
-    private long likes; 
+    private long likes;
+    public void setId(ObjectId id2) {
+    } 
 
     
 }
