@@ -21,6 +21,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -128,7 +129,7 @@ public class ReviewServiceTest {
         when(filmRepository.findFilmByTitleIgnoreCase(filmTitle)).thenReturn(Optional.of(film));
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
-        when(reviewRepository.save(review)).thenReturn(review);
+        when(reviewRepository.save(ArgumentMatchers.any(Review.class))).thenReturn(review);
 
         // Act
         Review actualReview = reviewService.createReview(filmTitle, username, reviewText, rating, likes);
