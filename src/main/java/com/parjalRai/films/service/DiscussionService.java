@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +18,15 @@ import com.parjalRai.films.repository.UserEntityRepository;
 
 @Service
 public class DiscussionService {
-    
 
     @Autowired
     private DiscussionRepository discussionRepository;
 
     @Autowired
     private FilmRepository filmRepository;
-    
+
     @Autowired
-    private UserEntityRepository userRepository; 
+    private UserEntityRepository userRepository;
 
     public List<Discussion> getAllDiscussions() {
         return discussionRepository.findAll();
@@ -45,7 +45,8 @@ public class DiscussionService {
         return discussionRepository.findByUser(user);
     }
 
-    public Discussion createDiscussion(String filmTitle, String username, String title, String description, Long likes) {
+    public Discussion createDiscussion(String filmTitle, String username, String title, String description,
+            Long likes) {
 
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
@@ -64,5 +65,46 @@ public class DiscussionService {
         return discussionRepository.save(discussion);
     }
 
+    public boolean isTheOwner(ObjectId id, String username) {
+
+        Optional<Discussion> optDiscussion = discussionRepository.findById(id);
+        Optional<UserEntity> optUser = userRepository.findByUsername(username);
+
+        Discussion discussion = optDiscussion.orElseThrow(() -> new NotFoundException("Discussion not found"));
+        UserEntity user = optUser.orElseThrow(() -> new NotFoundException("User not found"));
+
+        return discussion != null && discussion.getUser().equals(user);
+    }
+
+    public Discussion updateDiscussionDetails(Discussion discussion, ObjectId id) {
+        try {
+            Optional<Discussion> optDiscussion = discussionRepository.findById(id);
+            Discussion updatedDiscussion = optDiscussion.get();
+            if (discussion.getTitle() != null) {
+                updatedDiscussion.setTitle(discussion.getTitle());
+            }
+            if (discussion.getDescription() != null) {
+                updatedDiscussion.setDescription(discussion.getDescription());
+            }
+            updatedDiscussion.setLikes(discussion.getLikes());
+            updatedDiscussion.setTimestamp(Instant.now());
+
+            return discussionRepository.save(updatedDiscussion);
+
+        } catch (Exception e) {
+            System.err.println("ERROR WHILE UPDATING DISCUSSION");
+
+        }
+
+        return null;
+    }
     
+    public boolean deleteDiscussion(ObjectId id) {
+        return discussionRepository.findById(id).map(discussion -> {
+            discussionRepository.delete(discussion);
+            return true;
+        }).orElse(false);
+        
+    }
+
 }

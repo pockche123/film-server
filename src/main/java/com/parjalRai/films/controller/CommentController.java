@@ -39,7 +39,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.findAllCommentsByUser(username));
     }
 
-    @GetMapping("/dicussion/{discussionId}")
+    @GetMapping("/discussion/{discussionId}")
     public ResponseEntity<List<Comment>> getAllCommentsByDiscussion(@PathVariable ObjectId discussionId) {
         return ResponseEntity.ok(commentService.findAllCommentsByDiscussion(discussionId));
     }
