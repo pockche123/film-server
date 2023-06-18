@@ -2,16 +2,20 @@ package com.parjalRai.films.controller;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.service.annotation.PatchExchange;
 
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Discussion;
@@ -46,14 +50,30 @@ public class DiscussionController {
 
     @PostMapping
     public ResponseEntity<Discussion> createDiscussion(@RequestBody DiscussionDTO discussionDTO) {
-        try{
+        try {
             Discussion discussion = discussionService.createDiscussion(discussionDTO.filmTitle(),
                     discussionDTO.username(), discussionDTO.title(), discussionDTO.description(),
-            discussionDTO.likes());
+                    discussionDTO.likes());
             return ResponseEntity.ok(discussion);
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
         }
-    } 
+    }
+    
+    @PatchMapping("/{id}")
+    public ResponseEntity<Discussion> updateDiscussion(@RequestBody Discussion discussion, @PathVariable ObjectId id, 
+            Authentication authentication) {
+          Discussion updatedDiscussion = discussionService.updateDiscussionDetails(discussion, id); 
+          
+          String username = authentication.getName();
+          if (updatedDiscussion != null && discussionService.isTheOwner(id, username)) {
+              return ResponseEntity.ok(updatedDiscussion);
+          } else {
+              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+
+
+        
+    }
 }
