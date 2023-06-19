@@ -73,6 +73,17 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    public boolean isTheOwner(ObjectId id, String username) {
+
+        Optional<Comment> optComment = commentRepository.findById(id);
+        Optional<UserEntity> optUser = userRepository.findByUsername(username);
+
+        Comment comment = optComment.orElseThrow(() -> new NotFoundException("Comment not found"));
+        UserEntity user = optUser.orElseThrow(() -> new NotFoundException("User not found"));
+
+        return comment != null && comment.getUser().equals(user);
+    }
+
     public boolean deleteComment(ObjectId id) {
         return commentRepository.findById(id).map(comment -> {
             commentRepository.delete(comment);

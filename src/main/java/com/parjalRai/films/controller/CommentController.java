@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,11 +25,10 @@ import com.parjalRai.films.service.CommentService;
 @RequestMapping("api/v1/comment")
 @CrossOrigin(origins = "http://localhost:3000")
 public class CommentController {
-    
-  
+
     @Autowired
     private CommentService commentService;
-    
+
     @GetMapping
     public ResponseEntity<List<Comment>> getAllComments() {
         return ResponseEntity.ok(commentService.findAllComments());
@@ -47,8 +47,6 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<Comment> createComment(@RequestBody CommentDTO commentDTO) {
         try {
-
-            
             Comment comment = commentService.createComment(commentDTO.text(), commentDTO.discussionId(),
                     commentDTO.commentId(), commentDTO.username(), commentDTO.likes());
             return ResponseEntity.ok(comment);
@@ -56,31 +54,36 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-    
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteComment(@PathVariable ObjectId id) {
-        boolean deleted = commentService.deleteComment(id);
-        if(deleted){
-            return ResponseEntity.ok("Comment deleted successfully");
-        } else 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable ObjectId id,
+            Authentication authentication) {
+
+        String username = authentication.getName();
+        boolean deleted = commentService.deleteComment(id);
+
+        if (commentService.isTheOwner(id, username)) {
+            if (deleted) {
+                return ResponseEntity.ok("Comment deleted successfully");
+            } else {
+
+                return ResponseEntity.notFound().build();
+            }
+        } else{
             return ResponseEntity.notFound().build();
         }
-        
+    }
+
     @PatchMapping("/{id}")
-    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment, @PathVariable ObjectId id){
+    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment, @PathVariable ObjectId id,
+    Authentication authentication) {
         Comment updatedComment = commentService.updateCommentDetails(comment, id);
-        if(updatedComment != null){
+        String username = authentication.getName();
+        if (updatedComment != null && commentService.isTheOwner(id, username)) {
             return ResponseEntity.ok(updatedComment);
-        } else{
+        } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }     
+    }
 
-    
-       }
-
-
-
-
-
+}
