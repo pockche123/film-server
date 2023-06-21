@@ -32,6 +32,10 @@ public class DiscussionService {
         return discussionRepository.findAll();
     }
 
+    public Optional<Discussion> getDiscussion(ObjectId id) {
+        return discussionRepository.findById(id);
+    }
+
     public List<Discussion> getDiscussionsByFilm(String filmTitle) {
 
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);

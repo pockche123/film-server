@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,6 +72,20 @@ public class DiscussionServiceTest {
         //Assert
         assertEquals(expectedDiscussion, actualDiscussion);
         verify(discussionRepository).findAll();
+    }
+
+    @Test
+    void getDiscussion_whenValidObjectIdPassed() {
+        //Arrange
+        ObjectId id = new ObjectId();
+        when(discussionRepository.findById(id)).thenReturn(Optional.of(discussion1));
+
+        //assert
+        Optional<Discussion> actualDiscussion = discussionRepository.findById(id);
+
+        //act
+        assertEquals(Optional.of(discussion1), actualDiscussion);
+
     }
 
     @Test
