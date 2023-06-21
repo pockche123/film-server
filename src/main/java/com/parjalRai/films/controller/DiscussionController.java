@@ -1,6 +1,7 @@
 package com.parjalRai.films.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class DiscussionController {
     @GetMapping
     public ResponseEntity<List<Discussion>> getAllDiscussions() {
         return ResponseEntity.ok(discussionService.getAllDiscussions());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Discussion>> getDiscussion(@PathVariable ObjectId id) {
+        return ResponseEntity.ok(discussionService.getDiscussion(id));
     }
 
     @GetMapping("/film/{filmTitle}")

@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.AfterEach;
@@ -86,6 +87,21 @@ public class DiscussionControllerTests {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expected, response.getBody());
         verify(discussionService).getDiscussionsByFilm(title);
+    }
+
+    @Test
+    void testGetDiscussion_ReturnsADiscussion_WhenObjectIdPassed() {
+        //arrange
+        ObjectId id = new ObjectId();
+        when(discussionService.getDiscussion(id)).thenReturn(Optional.of(discussion1));
+
+        //act
+        ResponseEntity<Optional<Discussion>> response = discussionController.getDiscussion(id);
+
+        //assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(discussionService).getDiscussion(id);
     }
 
 
