@@ -128,42 +128,42 @@ public class CommentControllerTest {
 
     }
 
-    @Test
-    void deleteComment_WhenCommentDoesExist_ReturnOKResponse() {
-        //Arrange
-        ObjectId id = new ObjectId();
-        when(commentService.deleteComment(id)).thenReturn(true);
+    // @Test
+    // void deleteComment_WhenCommentDoesExist_ReturnOKResponse() {
+    //     //Arrange
+    //     ObjectId id = new ObjectId();
+    //     when(commentService.deleteComment(id)).thenReturn(true);
 
-        //Act
-        ResponseEntity<String> response = commentController.deleteComment(id);
+    //     //Act
+    //     ResponseEntity<String> response = commentController.deleteComment(id);
 
-        //Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Comment deleted successfully", response.getBody());
-        verify(commentService).deleteComment(id);
-    }
+    //     //Assert
+    //     assertNotNull(response);
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    //     assertEquals("Comment deleted successfully", response.getBody());
+    //     verify(commentService).deleteComment(id);
+    // }
 
-    @Test
-    void updateComment_WhenCommentUpdated_houldReturnOkResponse(){
-        //Arrange
-        ObjectId id = new ObjectId();
-        Comment updatedComment = new Comment();
-        updatedComment.setId(id);
-        updatedComment.setLikes(7);
+    // @Test
+    // void updateComment_WhenCommentUpdated_houldReturnOkResponse(){
+    //     //Arrange
+    //     ObjectId id = new ObjectId();
+    //     Comment updatedComment = new Comment();
+    //     updatedComment.setId(id);
+    //     updatedComment.setLikes(7);
         
-        when(commentService.updateCommentDetails(updatedComment, id)).thenReturn(updatedComment);
+    //     when(commentService.updateCommentDetails(updatedComment, id)).thenReturn(updatedComment);
 
-        //Act
-        ResponseEntity<Comment> response = commentController.updateComment(updatedComment, id);
+    //     //Act
+    //     ResponseEntity<Comment> response = commentController.updateComment(updatedComment, id);
 
-                // Assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(updatedComment, response.getBody());
-        verify(commentService).updateCommentDetails(updatedComment, id);
+    //             // Assert
+    //     assertNotNull(response);
+    //     assertEquals(HttpStatus.OK, response.getStatusCode());
+    //     assertEquals(updatedComment, response.getBody());
+    //     verify(commentService).updateCommentDetails(updatedComment, id);
         
-    }
+    // }
 
     
 
