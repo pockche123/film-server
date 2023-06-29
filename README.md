@@ -1,7 +1,7 @@
 ﻿# film-server
 ## Film App
 
-The Film App is a Java-based application that allows users to browse and manage a collection of films. It provides features for searching films, viewing details, and managing user accounts.
+The Film App is a Java-based application that allows users to browse and manage a collection of Studio Ghibli films. It provides features for searching films, viewing details, and managing user accounts.
 
 
 ### Prerequisites 
