@@ -61,10 +61,11 @@ MongoDB
 Configuration
 The Film App uses environment variables for configuration. Before running the application, make sure to set the following environment variables:
 
-DB_HOST: MongoDB database host address
-DB_PORT: MongoDB database port number
-DB_NAME: MongoDB database name
-JWT_SECRET: Secret key for JWT token generation
+MONGO_DATABASE="movie-api-db"
+MONGO_USER="bayingray123"
+MONGO_PASSWORD="infinite8"
+MONGO_CLUSTER="cluster0.cnmqfvq.mongodb.net"
+JWT_SECRET: 3F4428472B4B6250655368566D5971337336763979244226452948404D635166
 Contributing
 Contributions to the Film App are welcome! If you encounter any issues or have suggestions for improvements, please submit an issue or a pull request to the GitHub repository.
 
