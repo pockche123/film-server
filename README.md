@@ -68,12 +68,11 @@ JWT_SECRET: Secret key for JWT token generation
 Contributing
 Contributions to the Film App are welcome! If you encounter any issues or have suggestions for improvements, please submit an issue or a pull request to the GitHub repository.
 
-License
-The Film App is open source and released under the MIT License.
 
 Contact
 For any inquiries or questions, please contact the project maintainer:
 
-Your Name
-Email: your-email@example.com
-Thank you for using the Film App! We hope you enjoy managing your film collection with ease.
+Parjal Rai
+Email: bayingray123@gmail.com
+
+Thank you for using the Film App! I hope you enjoy managing your film collection with ease.
