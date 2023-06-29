@@ -53,18 +53,13 @@ public class CommentService {
 
         Discussion discussion = optDiscussion.orElseThrow(() -> new NotFoundException("discussion not found"));
         UserEntity user = optUser.orElseThrow(() -> new NotFoundException(username + " not found"));
-        Comment parentComment = null;
-        if (commentId != null) {
-            Optional<Comment> optComment = commentRepository.findById(commentId);
-            parentComment = optComment.orElseThrow(() -> new NotFoundException("Comment not found"));
-        }
-
-        // Generate new ObjectId if commentId is null
-        ObjectId newCommentId = commentId != null ? commentId : new ObjectId();
+        System.err.println("comment id, " + commentId);
+        System.err.println("discussion id. " + discussionId);
+        Optional<Comment> optComment = commentRepository.findById(commentId);
 
         Comment comment = new Comment();
         comment.setDiscussion(discussion);
-        comment.setParentComment(parentComment);
+        comment.setParentComment(optComment.orElse(null));
         comment.setText(text);
         comment.setTimestamp(Instant.now());
         comment.setLikes(likes);
@@ -111,7 +106,6 @@ public class CommentService {
         return null;
     }
 
-    public void updatedComment(Comment updatedComment, ObjectId id) {
-    }
+    
 
 }
