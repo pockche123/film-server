@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import com.parjalRai.films.exception.NotFoundException;
@@ -15,9 +16,12 @@ import com.parjalRai.films.model.UserEntity;
 import com.parjalRai.films.repository.CommentRepository;
 import com.parjalRai.films.repository.DiscussionRepository;
 import com.parjalRai.films.repository.UserEntityRepository;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 @Service
 public class CommentService {
+
 
     @Autowired
     private CommentRepository commentRepository;
@@ -27,6 +31,16 @@ public class CommentService {
 
     @Autowired
     private DiscussionRepository discussionRepository;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    public List<Comment> findParentComments() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("parentComment").is(null));
+
+        return mongoTemplate.find(query, Comment.class);
+    }
 
     public List<Comment> findAllComments() {
         return commentRepository.findAll();
@@ -39,6 +53,17 @@ public class CommentService {
         return commentRepository.findByUser(user);
     }
 
+
+
+
+    public List<Comment> findChildComments() {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("parentComment").ne(null));
+        return mongoTemplate.find(query, Comment.class);
+    }
+
+
+ 
     public List<Comment> findAllCommentsByDiscussion(ObjectId discussionId) {
         Optional<Discussion> optDiscussion = discussionRepository.findById(discussionId);
 

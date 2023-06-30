@@ -34,6 +34,16 @@ public class CommentController {
         return ResponseEntity.ok(commentService.findAllComments());
     }
 
+    @GetMapping("/parents")
+    public ResponseEntity<List<Comment>> getAllParentComments() {
+        return ResponseEntity.ok(commentService.findParentComments());
+    }
+
+    @GetMapping("/children")
+    public ResponseEntity<List<Comment>> getAllChildComments() {
+        return ResponseEntity.ok(commentService.findChildComments());
+    }
+
     @GetMapping("/user/{username}")
     public ResponseEntity<List<Comment>> getAllCommmentsByUser(@PathVariable String username) {
         return ResponseEntity.ok(commentService.findAllCommentsByUser(username));
