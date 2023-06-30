@@ -54,6 +54,21 @@ public class CommentService {
     }
 
 
+    public List<Comment> findChildCommentsByDiscussionId(ObjectId discussionId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("discussion").is(discussionId));
+        query.addCriteria(Criteria.where("parentComment").ne(null));
+        return mongoTemplate.find(query, Comment.class);
+    }
+
+    public List<Comment> findParentCommentsByDiscussionId(ObjectId discussionId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("discussion").is(discussionId));
+        query.addCriteria(Criteria.where("parentComment").is(null));
+        return mongoTemplate.find(query, Comment.class); 
+    }
+
+
 
 
     public List<Comment> findChildComments() {
@@ -71,6 +86,9 @@ public class CommentService {
 
         return commentRepository.findByDiscussion(discussion);
     }
+
+  
+
 
     public Comment createComment(String text, ObjectId discussionId, ObjectId commentId, String username, Long likes) {
         Optional<Discussion> optDiscussion = discussionRepository.findById(discussionId);

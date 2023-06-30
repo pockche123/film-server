@@ -54,6 +54,16 @@ public class CommentController {
         return ResponseEntity.ok(commentService.findAllCommentsByDiscussion(discussionId));
     }
 
+    @GetMapping("/children/discussion/{discussionId}")
+    public ResponseEntity<List<Comment>> getAllChildCommentsByDiscussion(@PathVariable ObjectId discussionId) {
+        return ResponseEntity.ok(commentService.findChildCommentsByDiscussionId(discussionId));
+    }
+
+    @GetMapping("/parent/discussion/{discussionId}")
+    public ResponseEntity<List<Comment>> getAllParentCommentsByDiscussion(@PathVariable ObjectId discussionId) {
+        return ResponseEntity.ok(commentService.findParentCommentsByDiscussionId(discussionId));
+    }
+
     @PostMapping
     public ResponseEntity<Comment> createComment(@RequestBody CommentDTO commentDTO) {
         try {
