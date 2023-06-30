@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +26,9 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import com.parjalRai.films.model.Comment;
 import com.parjalRai.films.model.Discussion;
@@ -46,6 +52,9 @@ public class CommentServiceTest {
     @InjectMocks
     private CommentService commentService;
 
+    @Mock
+    private MongoTemplate mongoTemplate;
+
     private Comment comment1;
     private Comment comment2;
 
@@ -60,7 +69,41 @@ public class CommentServiceTest {
         comment1 = null;
         comment2 = null;
     }
+
+    @Test
+    public void findParentComments_ReturnsAListOfComments_WhoseParentCommentsAreNull() {
+        // arrange
+        List<Comment> expectedComments = Arrays.asList(comment1, comment2);
+        when(mongoTemplate.find(any(Query.class), eq(Comment.class))).thenReturn(expectedComments);
+
+        // act
+        List<Comment> actualComments = commentService.findParentComments();
+
+        // assert
+        assertEquals(expectedComments, actualComments);
+        verify(mongoTemplate).find(any(Query.class), eq(Comment.class));
+        verify(mongoTemplate).find(argThat(query -> query.getQueryObject().get("parentComment") == null),
+                eq(Comment.class));
+
+    }
     
+    @Test 
+    public void findChildComments_ReturnsAListOfComments_WhoseParentsAreNotNull() {
+        //arrange
+        comment1.setParentComment(comment2);
+        List<Comment> expectedComments = Arrays.asList(comment1);
+        when(mongoTemplate.find(any(Query.class), eq(Comment.class))).thenReturn(expectedComments);
+
+        //act
+        List<Comment> actualComments = commentService.findChildComments();
+
+        //assert
+        assertEquals(expectedComments, actualComments);
+        verify(mongoTemplate).find(argThat(query -> query.getQueryObject().get("parentComment") != null),
+                eq(Comment.class));
+
+
+    }
 
     @Test
     void findAllComments_ReturnsListOfComments() {

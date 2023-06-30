@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,6 +66,44 @@ public class CommentControllerTest {
         assertEquals(comments, response.getBody());
         verify(commentService).findAllComments();
     }
+
+    @Test
+    void getParentComments_ReturnsListOfComments() {
+        // arrange
+        List<Comment> parentComments = Arrays.asList(comment1, comment2);
+        when(commentService.findParentComments()).thenReturn(parentComments);
+
+        // act
+        ResponseEntity<List<Comment>> responseEntity = commentController.getAllParentComments();
+
+        // assert
+        assert responseEntity.getStatusCode() == HttpStatus.OK;
+        assert responseEntity.getBody() != null;
+        assert responseEntity.getBody().size() == parentComments.size();
+        assert responseEntity.getBody().containsAll(parentComments);
+        verify(commentService).findParentComments();
+    }
+
+    @Test
+    void getChildComments_ReturnsListOfComments() {
+        //arrange
+        comment1.setParentComment(comment2);
+        List<Comment> childComments = Arrays.asList(comment1);
+        when(commentService.findChildComments()).thenReturn(childComments);
+
+        //act
+        ResponseEntity<List<Comment>> responseEntity = commentController.getAllChildComments();
+
+        //assert
+        assert responseEntity.getStatusCode() == HttpStatus.OK;
+        assert responseEntity.getBody() != null;
+        assert responseEntity.getBody().size() == childComments.size();
+        assert responseEntity.getBody().containsAll(childComments);
+        verify(commentService).findChildComments();
+
+    }
+
+
 
     @Test
     void getAllCommentsByUser_ReturnsListOfComments_WhenValidUsernamePassedIn() {
