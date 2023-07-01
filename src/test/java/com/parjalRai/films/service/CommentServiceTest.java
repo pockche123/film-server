@@ -22,6 +22,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -102,8 +103,41 @@ public class CommentServiceTest {
         verify(mongoTemplate).find(argThat(query -> query.getQueryObject().get("parentComment") != null),
                 eq(Comment.class));
 
+    }
+    
+    @Test
+    public void findParentCommentsByDiscussionId_ReturnsAListOfComment_WhenDiscussionIdFound() {
+        ObjectId discussionId = new ObjectId();
+        Query expectedQuery = new Query();
+        expectedQuery.addCriteria(Criteria.where("discussion").is(discussionId));
+        expectedQuery.addCriteria(Criteria.where("parentComment").is(null));
+        List<Comment> expectedComments = Arrays.asList(comment1, comment2);
+        when(mongoTemplate.find(any(Query.class), eq(Comment.class))).thenReturn(expectedComments);
+
+        List<Comment> actualComments = commentService.findParentCommentsByDiscussionId(discussionId);
+
+        assertEquals(expectedComments, actualComments);
+
+        verify(mongoTemplate).find(expectedQuery, Comment.class);
 
     }
+    
+    @Test
+    public void findChildCommentsByDiscussionId_ReturnsAListOfComments_WhenDiscussionIdFound() {
+        Object discussionId = new ObjectId();
+        Query expectedQuery = new Query();
+        expectedQuery.addCriteria(Criteria.where("discussion").is(discussionId));
+        expectedQuery.addCriteria(Criteria.where("parentComment").is(comment2));
+        List<Comment> expectedComments = Arrays.asList(comment1);
+        when(mongoTemplate.find(any(Query.class), eq(Comment.class))).thenReturn(expectedComments);
+
+        List<Comment> actualComments = commentService.findChildCommentsByDiscussionId(discussionId);
+
+        assertEquals(expectedComments, actualComments);
+        verify(mongoTemplate).find(argThat(query -> query.getQueryObject().get("parentComment") != null),
+                eq(Comment.class));
+    }
+
 
     @Test
     void findAllComments_ReturnsListOfComments() {
