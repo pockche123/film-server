@@ -22,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.parjalRai.films.model.Comment;
+import com.parjalRai.films.model.Discussion;
 import com.parjalRai.films.model.dto.CommentDTO;
 import com.parjalRai.films.service.CommentService;
 
@@ -101,6 +102,45 @@ public class CommentControllerTest {
         assert responseEntity.getBody().containsAll(childComments);
         verify(commentService).findChildComments();
 
+    }
+
+
+
+    @Test
+    public void testGetAllParentCommentsByDiscussion() {
+        // arrange
+        ObjectId discussionId = new ObjectId();
+        List<Comment> comments = Arrays.asList(comment1, comment2);
+
+        when(commentService.findParentCommentsByDiscussionId(discussionId)).thenReturn(comments);
+
+        // act
+        ResponseEntity<List<Comment>> responseEntity = commentController.getAllParentCommentsByDiscussion(discussionId);
+
+        // assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(comments, responseEntity.getBody());
+
+        //verify
+        verify(commentService).findParentCommentsByDiscussionId(discussionId);
+    }
+
+    @Test
+    public void testGetAllChildCommentsByDiscussion() {
+        // arrange
+        ObjectId discussionId = new ObjectId();
+        List<Comment> comments = Arrays.asList(comment1, comment2);
+
+        // Mock the commentService.findChildCommentsByDiscussionId(discussionId) method
+        when(commentService.findChildCommentsByDiscussionId(discussionId)).thenReturn(comments);
+
+        // act
+        ResponseEntity<List<Comment>> responseEntity = commentController.getAllChildCommentsByDiscussion(discussionId);
+
+        // assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(comments, responseEntity.getBody());
+        verify(commentService).findChildCommentsByDiscussionId(discussionId);
     }
 
 

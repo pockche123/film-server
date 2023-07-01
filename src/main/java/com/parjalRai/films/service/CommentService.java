@@ -54,7 +54,7 @@ public class CommentService {
     }
 
 
-    public List<Comment> findChildCommentsByDiscussionId(ObjectId discussionId) {
+    public List<Comment> findChildCommentsByDiscussionId(Object discussionId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("discussion").is(discussionId));
         query.addCriteria(Criteria.where("parentComment").ne(null));
