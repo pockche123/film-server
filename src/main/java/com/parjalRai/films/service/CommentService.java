@@ -61,6 +61,12 @@ public class CommentService {
         return mongoTemplate.find(query, Comment.class);
     }
 
+    public List<Comment> findAllChildComments(Object id) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("parentComment").is(id));
+        return mongoTemplate.find(query, Comment.class);
+    }
+
     public List<Comment> findParentCommentsByDiscussionId(ObjectId discussionId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("discussion").is(discussionId));
