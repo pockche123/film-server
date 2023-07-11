@@ -33,7 +33,7 @@ public class StreamController {
 
     @GetMapping
     public ResponseEntity<List<Stream>> getAllStreams() {
-        return ResponseEntity.ok(streamService.findAllStream());
+        return ResponseEntity.ok(streamService.findAllStreams());
     }
 
     @GetMapping("/{id}")
