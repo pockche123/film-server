@@ -23,7 +23,7 @@ public class StreamService {
     private FilmRepository filmRepository; 
 
 
-    public List<Stream> findAllStream() {
+    public List<Stream> findAllStreams() {
         return streamRepository.findAll();
     }
 
