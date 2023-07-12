@@ -40,6 +40,11 @@ public class StreamController {
         return ResponseEntity.ok(streamService.findStream(id));
     }
 
+    @GetMapping("/film/{title}")
+    public ResponseEntity<List<Stream>> getStreamByFilm(@PathVariable String title) {
+        return ResponseEntity.ok(streamService.findByFilm(title));
+    }
+
     @PostMapping 
     public ResponseEntity<Stream> createStream(@RequestBody StreamDTO streamDTO) {
         try {

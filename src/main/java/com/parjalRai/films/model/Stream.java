@@ -23,5 +23,8 @@ public class Stream {
     @DBRef
     private Film film;
     private String country;
+    public Object thenReturn(Stream stream1) {
+        return null;
+    }
     
 }
