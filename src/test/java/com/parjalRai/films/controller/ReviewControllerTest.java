@@ -134,7 +134,7 @@ public class ReviewControllerTest {
     @Test
     void createReview_WhenReviewCreated_ShouldReturnOkResponse() {
         // Arrange
-        ReviewDTO reviewDTO = new ReviewDTO("Film Title", "Username", "Review", 5, 7);
+        ReviewDTO reviewDTO = new ReviewDTO("Film Title", "Username", "Review", 5);
 
         Review createdReview = new Review();
         createdReview.setReviewId(new ObjectId());

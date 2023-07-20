@@ -132,7 +132,7 @@ public class ReviewServiceTest {
         when(reviewRepository.save(ArgumentMatchers.any(Review.class))).thenReturn(review);
 
         // Act
-        Review actualReview = reviewService.createReview(filmTitle, username, reviewText, rating, likes);
+        Review actualReview = reviewService.createReview(filmTitle, username, reviewText, rating);
 
         assertEquals(review, actualReview);
         verify(reviewRepository, times(1)).save(any());
@@ -152,7 +152,7 @@ public class ReviewServiceTest {
 
         // Act & Assert
         assertThrows(NotFoundException.class,
-                () -> reviewService.createReview(filmTitle, username, reviewText, rating, likes));
+                () -> reviewService.createReview(filmTitle, username, reviewText, rating));
 
         verify(reviewRepository, never()).save(any());
     }
