@@ -32,15 +32,9 @@ public class Review {
     //might need to change this to Timestamp
     @CreatedDate
     private Date createdDate;
-    private long likes;
-
     private Set<UserEntity> likedBy  = new HashSet<>();
 
-    // Constructors, Getters, Setters, and other methods
 
-    // public Review() {
-    //     this.likedBy = new HashSet<>();
-    // }
 
     public void addLikedBy(UserEntity user) {
         likedBy.add(user);
