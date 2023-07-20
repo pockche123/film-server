@@ -140,7 +140,7 @@ public class ReviewControllerTest {
         createdReview.setReviewId(new ObjectId());
         createdReview.setReview(reviewDTO.review());
 
-        when(reviewService.createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review(), reviewDTO.rating(), reviewDTO.likes()))
+        when(reviewService.createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review(), reviewDTO.rating()))
                 .thenReturn(createdReview);
 
         // Act
@@ -150,7 +150,7 @@ public class ReviewControllerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(createdReview, response.getBody());
-        verify(reviewService, times(1)).createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review(), reviewDTO.rating(), reviewDTO.likes());
+        verify(reviewService, times(1)).createReview(reviewDTO.filmTitle(), reviewDTO.username(), reviewDTO.review(), reviewDTO.rating());
     }
 
 
