@@ -35,7 +35,7 @@ public class ReviewService {
     public Optional<Review> findAReview(ObjectId objectId) {return reviewRepository.findById(objectId);}
 
 
-    public Review createReview(String filmTitle, String username, String reviewText, int rating, long likes) {
+    public Review createReview(String filmTitle, String username, String reviewText, int rating) {
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
         Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
 
@@ -48,7 +48,7 @@ public class ReviewService {
         review.setReview(reviewText);
         review.setRating(rating);
         review.setCreatedDate(new Date());
-        review.setLikes(likes);
+
 
         return reviewRepository.save(review);
     }
@@ -68,7 +68,6 @@ public class ReviewService {
                 updatedReview.setReview(review.getReview());
             }
                 updatedReview.setRating(review.getRating());
-                updatedReview.setLikes(review.getLikes());
             return reviewRepository.save(updatedReview);
 
         } catch (Exception e) {
