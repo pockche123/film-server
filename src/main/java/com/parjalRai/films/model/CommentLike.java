@@ -11,11 +11,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Document(collection = "discussionCommentLikes")
+@Document(collection = "commentLikes")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DiscussionCommentLike {
+public class CommentLike {
 
     @Id
     private ObjectId id;

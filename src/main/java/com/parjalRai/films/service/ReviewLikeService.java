@@ -49,10 +49,9 @@ public class ReviewLikeService {
         reviewLike.setReview(review);
         reviewLike.setUserEntity(user);
         reviewLike.setTimestamp(Instant.now());
-        if (!reviewLikeRepo.existsById(reviewLike.getId())) {
+    
             return reviewLikeRepo.save(reviewLike);
-        }
-        return null;
+
     }
 
     public boolean deleteReviewLike(ObjectId id) {
