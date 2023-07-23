@@ -70,7 +70,7 @@ public class DiscussionLikeController {
     public ResponseEntity<String> deleteDiscussionLike(@PathVariable ObjectId id) {
         boolean deleted = discussionLikeService.deleteDiscussionLike(id);
         if (deleted) {
-            return ResponseEntity.ok("Review like deleted successfully.");
+            return ResponseEntity.ok("Discussion like deleted successfully.");
         } else {
             return ResponseEntity.notFound().build();
         }
