@@ -41,7 +41,7 @@ public class CommentLikeController {
     
 
     @GetMapping("/comment/{id}")
-    public ResponseEntity<List<CommentLike>> getAllLikesBycomment(@PathVariable ObjectId id) {
+    public ResponseEntity<List<CommentLike>> getAllLikesByComment(@PathVariable ObjectId id) {
         Optional<Comment> optcomment = commentRepository.findById(id);
         return ResponseEntity.ok(commentLikeService.findByComment(optcomment.get()));
     }
@@ -71,7 +71,7 @@ public class CommentLikeController {
     public ResponseEntity<String> deletecommentLike(@PathVariable ObjectId id) {
         boolean deleted = commentLikeService.deleteCommentLike(id);
         if (deleted) {
-            return ResponseEntity.ok("Review like deleted successfully.");
+            return ResponseEntity.ok("Comment like deleted successfully.");
         } else {
             return ResponseEntity.notFound().build();
         }
