@@ -33,13 +33,12 @@ public class UserEntityServiceTest {
     @BeforeEach
     public void setUp() {
         user1 = new UserEntity();
-        user2 = new UserEntity();
+  
     }
     
     @AfterEach
     public void tearDown() {
         user1 = null;
-        user2 = null;
     }
     
     @Test
