@@ -83,6 +83,24 @@ public class RatingController {
         return ratings;
     }
 
+
+    @GetMapping("/average/film/{title}")
+    public double getAverageFilmRating(@PathVariable String title) {
+        Optional<Film> optFilm = filmService.findFilmByTitle(title); 
+        Film film = optFilm.get();
+        List<Rating> ratings = ratingService.findRatingsByFilm(film);
+        
+
+        double result = 0;
+        
+        for (Rating rating : ratings) {
+            result += rating.getRating();
+        }
+
+        double averageRating = Math.round((result / ratings.size()) * 100.0) / 100.0; 
+        return averageRating; 
+    }
+
     @GetMapping("/user/{username}")
     public List<Rating> getUserRatings(@PathVariable String username) {
         Optional<UserEntity> optUser = userRepository.findByUsername(username);
