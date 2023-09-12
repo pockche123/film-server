@@ -168,6 +168,29 @@ public class RatingControllerTest {
         verify(filmService).findFilmByTitle(filmTitle);
         verify(ratingService).findRatingsByFilm(film);
     }
+
+
+    @Test
+    void getAverageRating_WhenFilmExists_ShouldReturnARating() {
+        String filmTitle = "Django";
+        Film film = new Film();
+        film.setTitle(filmTitle);
+
+        List<Rating> expectedRatings = Arrays.asList(rating1, rating2);
+        rating1.setRating(7);
+        rating2.setRating(9);
+
+        when(filmService.findFilmByTitle(filmTitle)).thenReturn(Optional.of(film));
+        when(ratingService.findRatingsByFilm(film)).thenReturn(expectedRatings);
+
+        double averageRating = ratingController.getAverageFilmRating("Django");
+
+        assertNotNull(averageRating);
+        assertEquals(8.0, averageRating);
+        verify(filmService).findFilmByTitle(filmTitle);
+        verify(ratingService).findRatingsByFilm(film);
+
+    }
     
     @Test
     void getUserRatings_WhenUserExists_ShouldReturnListOfRatings() {
@@ -182,11 +205,32 @@ public class RatingControllerTest {
 
         //Act
         List<Rating> results = ratingController.getUserRatings(username);
-        
+
         //Assert
         assertNotNull(results);
         assertEquals(expectedRatings, results);
         verify(ratingService).findRatingsByUser(user);
+    }
+    
+
+    @Test
+    void getAverageUserRating_WhenUserExists_ShouldReturnAnAverageRating() {
+        String username = "jogo";
+        UserEntity user = new UserEntity();
+        user.setUsername(username);
+        List<Rating> expectedRatings = Arrays.asList(rating1, rating2);
+        rating1.setRating(7);
+        rating2.setRating(8);
+
+        when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(ratingService.findRatingsByUser(user)).thenReturn(expectedRatings);
+
+        double result = ratingController.getAverageUserRating("jogo");
+        
+        assertNotNull(result);
+        assertEquals(7.5, result);
+        verify(ratingService).findRatingsByUser(user);
+
     }
 
 

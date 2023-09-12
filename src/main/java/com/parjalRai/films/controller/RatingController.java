@@ -86,20 +86,20 @@ public class RatingController {
 
     @GetMapping("/average/film/{title}")
     public double getAverageFilmRating(@PathVariable String title) {
-        Optional<Film> optFilm = filmService.findFilmByTitle(title); 
-        Film film = optFilm.get();
+        Film film = filmService.findFilmByTitle(title).orElseThrow(() -> new NotFoundException("Film title not found"));
         List<Rating> ratings = ratingService.findRatingsByFilm(film);
-        
 
-        double result = 0;
-        
-        for (Rating rating : ratings) {
-            result += rating.getRating();
-        }
+        double result = ratings.stream()
+                .mapToDouble(Rating::getRating)
+                .sum();
 
-        double averageRating = Math.round((result / ratings.size()) * 100.0) / 100.0; 
-        return averageRating; 
+        double averageRating = Math.round((result / ratings.size()) * 100.0) / 100.0;
+        return averageRating;
     }
+
+    
+
+
 
     @GetMapping("/user/{username}")
     public List<Rating> getUserRatings(@PathVariable String username) {
@@ -107,5 +107,23 @@ public class RatingController {
         UserEntity user = optUser.get();
         List<Rating> ratings = ratingService.findRatingsByUser(user);
         return ratings;
+    }
+
+
+
+    @GetMapping("/average/user/{username}")
+    public double getAverageUserRating(@PathVariable String username) {
+
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        List<Rating> ratings = ratingService.findRatingsByUser(user);
+        
+        double result = ratings.stream()
+                                      .mapToDouble(Rating::getRating)
+                .sum();
+        
+                double averageRating = Math.round((result/ratings.size())* 100.0)/100.0; 
+                return averageRating;
     }
 }

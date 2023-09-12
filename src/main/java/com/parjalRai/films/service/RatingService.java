@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.parjalRai.films.exception.NotFoundException;
-import com.parjalRai.films.model.AverageRatingResult;
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.Rating;
 import com.parjalRai.films.model.UserEntity;
@@ -40,10 +39,6 @@ public class RatingService {
         return ratingRepository.findByUserEntity(user);
     }
 
-
-    public List<AverageRatingResult> getAverageRatingByFilmTitle(String title) {
-        return ratingRepository.getAverageRatingForFilmByTitle(title);
-    }
 
     public Rating createRating(String filmTitle, String username, int rate) {
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);
