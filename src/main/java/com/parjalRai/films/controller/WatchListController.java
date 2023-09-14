@@ -36,12 +36,10 @@ public class WatchListController {
     private UserEntityRepository userRepository;
 
     @GetMapping("/user/{username}")
-    public List<WatchList> getUserWatchList(@PathVariable String username) {
+    public ResponseEntity<List<WatchList>> getUserWatchList(@PathVariable String username) {
         Optional<UserEntity> optUser = userRepository.findByUsername(username);
         UserEntity user = optUser.get();
-        List<WatchList> result = watchListService.findWatchListOfAUser(user);
-
-        return result;
+         return ResponseEntity.ok(watchListService.findWatchListOfAUser(user));
 
     }
 
