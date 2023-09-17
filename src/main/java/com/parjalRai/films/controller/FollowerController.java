@@ -5,7 +5,6 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,7 +59,7 @@ public class FollowerController {
     public ResponseEntity<String> deleteFollower(@PathVariable ObjectId id) {
         boolean deleted = followerService.deleteFollower(id);
         if (deleted) {
-            return ResponseEntity.ok("Follower deleted successfully");
+            return ResponseEntity.ok("Follower deleted successfully.");
         } else {
             return ResponseEntity.notFound().build();
         }
