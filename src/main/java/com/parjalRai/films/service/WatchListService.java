@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.parjalRai.films.exception.DuplicateException;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Film;
 import com.parjalRai.films.model.UserEntity;
@@ -41,6 +42,11 @@ public class WatchListService {
 
         Film film = optFilm.orElseThrow(() -> new NotFoundException("Film Not found"));
         UserEntity user = optUser.orElseThrow(() -> new NotFoundException("User Not Found"));
+
+
+        if (watchListRepository.existsByFilmAndUserEntity(film, user)) {
+            throw new DuplicateException("This film already exists in this user's watch list");
+        }
 
         WatchList watchList = new WatchList();
         watchList.setFilm(film);
