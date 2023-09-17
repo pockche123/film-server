@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.parjalRai.films.exception.DuplicateException;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Follower;
 import com.parjalRai.films.model.UserEntity;
@@ -41,7 +42,14 @@ public class FollowerService {
         UserEntity follower = userRepository.findByUsername(followerUsername)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
+
+                 if (followerRepository.existsByFollowingUserAndFollower(followingUser, follower)) {
+        throw new DuplicateException("Follower relationship already exists");
+    }
+
         Follower followerUser = new Follower();
+
+        
 
         followerUser.setFollowingUser(followingUser);
         followerUser.setFollower(follower);

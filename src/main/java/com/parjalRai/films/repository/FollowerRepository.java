@@ -16,4 +16,6 @@ public interface FollowerRepository extends MongoRepository<Follower, ObjectId> 
 
     List<Follower> findByFollowingUser(UserEntity followingUser);
 
+    boolean existsByFollowingUserAndFollower(UserEntity followingUser, UserEntity follower);
+
 }
