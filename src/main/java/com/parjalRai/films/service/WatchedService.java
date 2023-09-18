@@ -29,7 +29,7 @@ public class WatchedService {
     private UserEntityRepository userEntityRepository;
 
 
-    public List<Watched> findWatchListOfAUser(UserEntity user) {
+    public List<Watched> findWatchedOfAUser(UserEntity user) {
         return watchedRepository.findByUserEntity(user);
     }
 
