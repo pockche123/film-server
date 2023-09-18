@@ -38,7 +38,7 @@ public class WatchedController {
     public ResponseEntity<List<Watched>> getUserWatched(@PathVariable String username) {
         Optional<UserEntity> optUser = userRepository.findByUsername(username);
         UserEntity user = optUser.get();
-        return ResponseEntity.ok(watchedService.findWatchListOfAUser(user));
+        return ResponseEntity.ok(watchedService.findWatchedOfAUser(user));
     }
 
     @PostMapping
