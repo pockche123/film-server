@@ -13,6 +13,6 @@ public interface BlockedRepository extends MongoRepository<Blocked, ObjectId> {
 
     List<Blocked> findByBlocker(UserEntity blocker);
 
-    boolean existsByBlockerandBlockedUser(UserEntity blocker, UserEntity blockedUser);
+    boolean existsByBlockerAndBlockedUser(UserEntity blocker, UserEntity blockedUser);
     
 }
