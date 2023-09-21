@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.parjalRai.films.model.Film;
+import com.parjalRai.films.model.Rating;
 import com.parjalRai.films.service.FilmService;
+import com.parjalRai.films.service.RatingService;
 import com.parjalRai.films.service.ReviewService;
 
 import java.util.List;
@@ -23,7 +25,8 @@ public class FilmController {
     private FilmService filmService;
 
     @Autowired
-    private ReviewService reviewService;
+    private RatingService ratingService; 
+
 
     @GetMapping
     public ResponseEntity<List<Film>> getAllFilms() {
@@ -34,6 +37,8 @@ public class FilmController {
     public ResponseEntity<Optional<Film>> getAFilm(@PathVariable String imdbId) {
         return new ResponseEntity<Optional<Film>>(filmService.findAFilm(imdbId), HttpStatus.OK);
     }
+
+
 
     // @GetMapping("/title/{title}")
     // public ResponseEntity<Optional<Film>> getFilmByTitle(@PathVariable String title) {
