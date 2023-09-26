@@ -38,6 +38,11 @@ public class FilmController {
         return new ResponseEntity<Optional<Film>>(filmService.findAFilm(imdbId), HttpStatus.OK);
     }
 
+    @GetMapping("/topRated")
+    public ResponseEntity<List<Film>> getTopRatedFilms() {
+        return new ResponseEntity<List<Film>>(filmService.findTopRatedFilms(), HttpStatus.OK);
+    }
+
 
 
     // @GetMapping("/title/{title}")
