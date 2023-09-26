@@ -39,6 +39,8 @@ public class RatingService {
         return ratingRepository.findByUserEntity(user);
     }
 
+    
+
 
     public Rating createRating(String filmTitle, String username, int rate) {
         Optional<Film> optionalFilm = filmRepository.findFilmByTitleIgnoreCase(filmTitle);

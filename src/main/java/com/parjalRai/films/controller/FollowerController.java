@@ -35,7 +35,7 @@ public class FollowerController {
 
         return new ResponseEntity<List<Follower>>(followerService.findByFollowingUser(username), HttpStatus.OK);
     }
-    
+
 
     @PostMapping
     public ResponseEntity<Follower> createFollower(@RequestBody FollowerDTO followerDTO) {

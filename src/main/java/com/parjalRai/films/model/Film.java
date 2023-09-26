@@ -35,6 +35,7 @@ public class Film {
     // private List<Review> reviews;
     private String pgRating;
     private Integer duration;
+    private Double averageRating = 0.0; 
 
 
 

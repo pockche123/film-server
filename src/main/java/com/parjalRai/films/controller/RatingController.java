@@ -84,22 +84,6 @@ public class RatingController {
     }
 
 
-    @GetMapping("/average/film/{title}")
-    public double getAverageFilmRating(@PathVariable String title) {
-        Film film = filmService.findFilmByTitle(title).orElseThrow(() -> new NotFoundException("Film title not found"));
-        List<Rating> ratings = ratingService.findRatingsByFilm(film);
-
-        double result = ratings.stream()
-                .mapToDouble(Rating::getRating)
-                .sum();
-
-        double averageRating = Math.round((result / ratings.size()) * 100.0) / 100.0;
-        return averageRating;
-    }
-
-
-    
-
 
 
     @GetMapping("/user/{username}")

@@ -169,28 +169,6 @@ public class RatingControllerTest {
         verify(ratingService).findRatingsByFilm(film);
     }
 
-
-    @Test
-    void getAverageRating_WhenFilmExists_ShouldReturnARating() {
-        String filmTitle = "Django";
-        Film film = new Film();
-        film.setTitle(filmTitle);
-
-        List<Rating> expectedRatings = Arrays.asList(rating1, rating2);
-        rating1.setRating(7);
-        rating2.setRating(9);
-
-        when(filmService.findFilmByTitle(filmTitle)).thenReturn(Optional.of(film));
-        when(ratingService.findRatingsByFilm(film)).thenReturn(expectedRatings);
-
-        double averageRating = ratingController.getAverageFilmRating("Django");
-
-        assertNotNull(averageRating);
-        assertEquals(8.0, averageRating);
-        verify(filmService).findFilmByTitle(filmTitle);
-        verify(ratingService).findRatingsByFilm(film);
-
-    }
     
     @Test
     void getUserRatings_WhenUserExists_ShouldReturnListOfRatings() {
