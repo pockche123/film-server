@@ -1,7 +1,5 @@
 package com.parjalRai.films.service;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +22,7 @@ public class FilmService {
     private FilmRepository FilmRepository;
 
     @Autowired
-    private RatingRepository ratingRepository; 
-
+    private RatingRepository ratingRepository;
 
     public List<Film> findAllFilms() {
         return FilmRepository.findAll();
@@ -42,29 +39,27 @@ public class FilmService {
     public List<Film> findTopRatedFilms() {
 
         List<Rating> ratings = ratingRepository.findAll();
-        
-        Map<Film, Double> averageRatings = ratings.stream()
-                                                .collect(Collectors.groupingBy(Rating::getFilm, 
-                        Collectors.averagingDouble(Rating::getRating)));
-            
-        
 
-    List<Film> topRatedFilms = averageRatings.entrySet().stream()
-                                 .sorted((entry1, entry2) -> Double.compare(entry2.getValue(), entry1.getValue()))
-                                 .limit(4)
-            .map(entry -> {
-                Film film = entry.getKey();
-                film.setAverageRating(entry.getValue());
-                return film;
-                                 })
-            .collect(Collectors.toList());
-            
-    return topRatedFilms; 
-       
+        // Map<Film, Double> averageRatings = ratings.stream()
+        //         .collect(Collectors.groupingBy(Rating::getFilm, Collectors.averagingDouble(Rating::getRating)));
+
+        Map<Film, Double> averageRatings = ratings.stream()
+                .collect(Collectors.groupingBy(Rating::getFilm, Collectors.averagingDouble(Rating::getRating)));
+
+        List<Film> topRatedFilms = averageRatings.entrySet().stream()
+                .sorted((entry1, entry2) -> Double.compare(entry2.getValue(), entry1.getValue()))
+                .limit(4)
+                .map(entry -> {
+                    Film film = entry.getKey();
+                    film.setAverageRating(entry.getValue());
+                    return film;
+                })
+                .collect(Collectors.toList());
+
+
+
+        return topRatedFilms;
+
     }
 
-
-
 }
-
-
