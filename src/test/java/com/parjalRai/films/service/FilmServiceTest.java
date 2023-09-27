@@ -7,9 +7,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.parjalRai.films.model.Film;
+import com.parjalRai.films.model.Rating;
 import com.parjalRai.films.repository.FilmRepository;
+import com.parjalRai.films.repository.RatingRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,9 @@ class FilmServiceTest {
 
     @Mock
     private FilmRepository filmRepository;
+
+    @Mock
+    private RatingRepository ratingRepository; 
 
     @InjectMocks
     private FilmService filmService;
@@ -76,6 +82,43 @@ class FilmServiceTest {
         verify(filmRepository).findFilmByTitleIgnoreCase("title");
 
         assertEquals(optionalFilm, resultFilm);
+    }
+
+
+    @Test
+    void test_findTopRatedFilms_ReturnsAListOfFilms() {
+        
+
+        Film film1 = new Film();
+        Film film2 = new Film();
+        Film film3 = new Film(); 
+        
+     
+        Rating rating1 = new Rating();
+        rating1.setFilm(film1);
+        rating1.setRating(5);
+        Rating rating2 = new Rating();
+        rating2.setFilm(film2);
+        rating2.setRating(5); 
+        Rating rating3 = new Rating();
+        rating3.setFilm(film3);
+        rating3.setRating(7);
+
+        List<Rating> ratings = Arrays.asList(rating1, rating2, rating3);
+
+        when(ratingRepository.findAll()).thenReturn(ratings);
+
+        // Act
+        List<Film> topRatedFilms = filmService.findTopRatedFilms();
+
+        System.err.println(topRatedFilms);
+
+        // Assert
+        // assertEquals(3, topRatedFilms.size());
+    
+        assertEquals(ratings, topRatedFilms);
+    
+
     }
 
     // @Test
