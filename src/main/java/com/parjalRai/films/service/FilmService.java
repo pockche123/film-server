@@ -40,9 +40,6 @@ public class FilmService {
 
         List<Rating> ratings = ratingRepository.findAll();
 
-        // Map<Film, Double> averageRatings = ratings.stream()
-        //         .collect(Collectors.groupingBy(Rating::getFilm, Collectors.averagingDouble(Rating::getRating)));
-
         Map<Film, Double> averageRatings = ratings.stream()
                 .collect(Collectors.groupingBy(Rating::getFilm, Collectors.averagingDouble(Rating::getRating)));
 
