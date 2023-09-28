@@ -14,7 +14,9 @@ import com.parjalRai.films.repository.RatingRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -90,34 +92,38 @@ class FilmServiceTest {
         
 
         Film film1 = new Film();
+        film1.setTitle("film1");
         Film film2 = new Film();
-        Film film3 = new Film(); 
+        film2.setTitle("film2");
+        Film film3 = new Film();
+        film3.setTitle("film3");
         
      
         Rating rating1 = new Rating();
         rating1.setFilm(film1);
+
         rating1.setRating(5);
+
         Rating rating2 = new Rating();
         rating2.setFilm(film2);
-        rating2.setRating(5); 
+        rating2.setRating(5);
+
         Rating rating3 = new Rating();
         rating3.setFilm(film3);
         rating3.setRating(7);
 
         List<Rating> ratings = Arrays.asList(rating1, rating2, rating3);
 
+
+
         when(ratingRepository.findAll()).thenReturn(ratings);
 
         // Act
         List<Film> topRatedFilms = filmService.findTopRatedFilms();
 
-        System.err.println(topRatedFilms);
-
+       
         // Assert
-        // assertEquals(3, topRatedFilms.size());
-    
-        assertEquals(ratings, topRatedFilms);
-    
+         assertEquals(3, topRatedFilms.size());
 
     }
 

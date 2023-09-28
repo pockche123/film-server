@@ -18,6 +18,8 @@ import java.util.Optional;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -61,6 +63,31 @@ class FilmControllerTest {
         verify(filmService).findAFilm("exampleId");
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(optionalFilm, responseEntity.getBody());
+    }
+
+
+    @Test
+    void test_findTopRatedFilms_ReturnsAListOfFilms() {
+        
+
+        Film film1 = new Film();
+        film1.setTitle("film1");
+        Film film2 = new Film();
+        film2.setTitle("film2");
+        Film film3 = new Film();
+        film3.setTitle("film3");
+
+        List<Film> expected = Arrays.asList(film1, film2, film3);
+
+
+        when(filmService.findTopRatedFilms()).thenReturn(expected);
+
+        ResponseEntity<List<Film>> response = filmController.getTopRatedFilms();
+        
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(filmService).findTopRatedFilms();
+    
     }
 
     // @Test
