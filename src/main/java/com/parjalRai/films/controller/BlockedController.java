@@ -31,7 +31,7 @@ public class BlockedController {
     @Autowired
     private BlockedService blockedService;
     
-    @GetMapping("/user/username")
+    @GetMapping("/user/{username}")
     public ResponseEntity<List<Blocked>> getAllBlockedByBlocker(@PathVariable String username) {
         return ResponseEntity.ok(blockedService.getByBlocker(username));
     }
