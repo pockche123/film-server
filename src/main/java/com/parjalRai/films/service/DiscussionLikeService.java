@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.parjalRai.films.exception.DuplicateException;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Discussion;
 import com.parjalRai.films.model.DiscussionLike;
@@ -46,6 +47,10 @@ public class DiscussionLikeService {
 
         Discussion discussion = optDiscussion.orElseThrow(() -> new NotFoundException("Discussion not found"));
         UserEntity user = optUser.orElseThrow(() -> new NotFoundException("User not found"));
+
+        if (discussionLikeRepository.existsByUserEntityAndDiscussion(user, discussion)) {
+            throw new DuplicateException("This discussion has already been liked by this user");
+        }
 
         discussionLike.setDiscussion(discussion);
         discussionLike.setUserEntity(user);

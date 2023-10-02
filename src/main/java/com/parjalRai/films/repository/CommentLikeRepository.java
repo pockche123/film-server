@@ -15,4 +15,6 @@ public interface CommentLikeRepository extends MongoRepository<CommentLike, Obje
 
     List<CommentLike> findByComment(Comment comment);
 
+    boolean existsByUserEntityAndComment(UserEntity user, Comment comment);
+
 }

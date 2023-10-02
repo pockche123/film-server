@@ -14,5 +14,7 @@ public interface DiscussionLikeRepository extends MongoRepository<DiscussionLike
     List<DiscussionLike> findByUserEntity(UserEntity user);
 
     List<DiscussionLike> findByDiscussion(Discussion discussion);
+
+    boolean existsByUserEntityAndDiscussion(UserEntity user, Discussion discussion);
     
 }

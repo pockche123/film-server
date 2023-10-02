@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.parjalRai.films.exception.DuplicateException;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Comment;
 import com.parjalRai.films.model.CommentLike;
@@ -45,6 +46,11 @@ public class CommentLikeService {
 
         Comment comment = optComment.orElseThrow(() -> new NotFoundException("Comment not found"));
         UserEntity user = optUser.orElseThrow(() -> new NotFoundException("User not found"));
+
+
+        if (commentLikeRepository.existsByUserEntityAndComment(user, comment)) {
+            throw new DuplicateException("This comment has already been liked by the user");
+        }
 
         commentLike.setComment(comment);
         commentLike.setUserEntity(user);

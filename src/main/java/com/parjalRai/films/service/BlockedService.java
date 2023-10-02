@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.parjalRai.films.exception.DuplicateException;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Blocked;
 import com.parjalRai.films.model.UserEntity;
@@ -36,6 +37,12 @@ public class BlockedService {
 
         UserEntity blockedUser = userEntityRepository.findByUsername(blockedUsername)
                 .orElseThrow(() -> new NotFoundException("User not found"));
+
+
+        if (blockedRepository.existsByBlockerAndBlockedUser(blocker, blockedUser)) {
+            throw new DuplicateException("This blocker and blockedUser already exists");
+                }
+
 
         Blocked blocked = new Blocked();
         blocked.setBlockedUser(blockedUser);
