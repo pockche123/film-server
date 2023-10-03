@@ -14,6 +14,8 @@ public interface ReviewLikeRepository extends MongoRepository<ReviewLike, Object
     List<ReviewLike> findByReview(Review review);
 
     List<ReviewLike> findByUserEntity(UserEntity userEntity);
+
+    boolean existsByUserEntityAndReview(UserEntity userEntity, Review review);
     
 
     
