@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.parjalRai.films.exception.DuplicateException;
 import com.parjalRai.films.exception.NotFoundException;
 import com.parjalRai.films.model.Review;
 import com.parjalRai.films.model.ReviewLike;
@@ -45,6 +46,10 @@ public class ReviewLikeService {
 
         Review review = optReview.orElseThrow(() -> new NotFoundException("Review not found"));
         UserEntity user = optUser.orElseThrow(() -> new NotFoundException("User not found"));
+
+        if (reviewLikeRepo.existsByUserEntityAndReview(user, review)) {
+            throw new DuplicateException("This review is already liked by this user");
+        }
 
         reviewLike.setReview(review);
         reviewLike.setUserEntity(user);
