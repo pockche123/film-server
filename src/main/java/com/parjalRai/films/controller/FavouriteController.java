@@ -2,16 +2,21 @@ package com.parjalRai.films.controller;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.parjalRai.films.model.Favourite;
+import com.parjalRai.films.model.dto.FavouriteDTO;
 import com.parjalRai.films.service.FavouriteService;
 
 @RestController
@@ -36,6 +41,22 @@ public class FavouriteController {
                 HttpStatus.OK);
     }
 
+
+    @PostMapping
+    public ResponseEntity<Favourite> createFavourites(@RequestBody FavouriteDTO favouriteDto) {
+        Favourite favourite = favouriteService.createFavourite(favouriteDto.username(), favouriteDto.filmTitle());
+       return ResponseEntity.ok(favourite);
+    }  
     
-    
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteFavouriteObject(@PathVariable ObjectId id){
+        boolean deleted = favouriteService.deleteFavourite(id); 
+
+        if(deleted){
+            return ResponseEntity.ok("Favourite Object deleted successfully.");
+        } else{
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
