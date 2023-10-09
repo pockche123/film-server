@@ -35,7 +35,7 @@ public class FavouriteController {
 
     }
     
-    @GetMapping("/{username}")
+    @GetMapping("/user/{username}")
     public ResponseEntity<List<Favourite>> getAllFavouritesByUsername(@PathVariable String username) {
         return new ResponseEntity<List<Favourite>>(favouriteService.findAllFavouritesByUsername(username),
                 HttpStatus.OK);
